@@ -1,0 +1,27 @@
+{
+  "name": "zorba-torrent",
+  "version": "1.0.0",
+  "description": "A nodejs based bit torrent client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmalChandru/Building-My-Own-X.git"
+  },
+  "author": "Amal Chandru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmalChandru/Building-My-Own-X/issues"
+  },
+  "homepage": "https://github.com/AmalChandru/Building-My-Own-X#readme",
+  "devDependencies": {
+    "eslint": "^8.21.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "bencode": "^2.0.3"
+  }
+}
