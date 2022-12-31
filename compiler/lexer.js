@@ -1,5 +1,7 @@
-const lexer = (code) => {
-    const sourceCode = code + '\n';
+const { tokenTypes } = require("./token-types-helper");
+
+const lexer = (_code) => {
+    const sourceCode = _code + '\n';
     let currentCharacter = '';
     let currentPosition = -1;
 
@@ -9,10 +11,51 @@ const lexer = (code) => {
     "currentPosition": currentPosition
     };
 
-    while(peek(lexerObject) != '\0'){
-        console.log(lexerObject.currentCharacter);
-        nextCharacter(lexerObject);
+    // while(peek(lexerObject) != '\0'){
+    //     console.log(lexerObject.currentCharacter);
+    //     nextCharacter(lexerObject);
+    // }
+    let tokenObject = getToken(lexerObject);
+    console.log(tokenObject);
+    while(tokenObject.tokenType != tokenTypes.EOF){
+        if(tokenObject.tokenType == tokenTypes.UKNWT){
+            console.log('Unknown token');
+            return;
+        }
+        console.log(tokenObject);
+        tokenObject = getToken(lexerObject)
     }
+};
+
+const getToken = (_lexerObject) => {
+    let tokenObject = {
+        "tokenText": _lexerObject.currentCharacter
+    };
+    switch(_lexerObject.currentCharacter) {
+        case '+':
+            tokenObject.tokenType = tokenTypes.PLUS;
+            break;
+        case '-':
+            tokenObject.tokenType = tokenTypes.MINUS;
+            break;
+        case '*':
+            tokenObject.tokenType = tokenTypes.ASTERISK;
+            break;
+        case '/':
+            tokenObject.tokenType = tokenTypes.SLASH;
+            break;
+        case '\n':
+            tokenObject.tokenType = tokenTypes.NEWLINE;
+            break;
+        case '\0':
+            tokenObject.tokenType = tokenTypes.EOF;
+            break;
+        default:
+            tokenObject.tokenType = tokenTypes.UKNWT;
+            break;
+    }
+    nextCharacter(_lexerObject);
+    return tokenObject;
 };
 
 const peek = (_inputObject) => {
@@ -31,4 +74,4 @@ const nextCharacter = (_inputObject) => {
     };
 };
 
-lexer("LET foobar = 123");
+lexer("+- */");
