@@ -1,3 +1,5 @@
+//TO DO Convert javascript Object to map
+//const tokenTypes = new Map();
 const tokenTypes = {
     "EOF": -1,
 	"NEWLINE": 0,
@@ -32,7 +34,7 @@ const tokenTypes = {
 	"GTEQ": 211,
 
     //Unknown Token
-    "UKNWT": 301
+    "UKNWT": 301,
 };
 
 module.exports = {

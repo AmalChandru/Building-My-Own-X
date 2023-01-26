@@ -10,17 +10,11 @@ const lexer = (_code) => {
     "currentCharacter": currentCharacter,
     "currentPosition": currentPosition
     };
-
-    // while(peek(lexerObject) != '\0'){
-    //     console.log(lexerObject.currentCharacter);
-    //     nextCharacter(lexerObject);
-    // }
+    
     let tokenObject = getToken(lexerObject);
-    console.log(tokenObject);
     while(tokenObject.tokenType != tokenTypes.EOF){
         if(tokenObject.tokenType == tokenTypes.UKNWT){
-            console.log('Unknown token');
-            return;
+        console.log('Unknown token');
         }
         console.log(tokenObject);
         tokenObject = getToken(lexerObject)
@@ -31,6 +25,7 @@ const getToken = (_lexerObject) => {
     let tokenObject = {
         "tokenText": _lexerObject.currentCharacter
     };
+    skipSpace(_lexerObject);
     switch(_lexerObject.currentCharacter) {
         case '+':
             tokenObject.tokenType = tokenTypes.PLUS;
@@ -50,19 +45,21 @@ const getToken = (_lexerObject) => {
         case '\0':
             tokenObject.tokenType = tokenTypes.EOF;
             break;
+        case '=':
+            if(peek(_lexerObject) == '='){
+                tokenObject.tokenType = tokenTypes.EQEQ;
+                nextCharacter(_lexerObject);
+                break;
+            } else {
+                tokenObject.tokenType = tokenTypes.EQ;
+                break;
+            }
         default:
             tokenObject.tokenType = tokenTypes.UKNWT;
             break;
     }
     nextCharacter(_lexerObject);
     return tokenObject;
-};
-
-const peek = (_inputObject) => {
-    if (_inputObject.currentPosition + 1 >= _inputObject.sourceCode.length){
-        return '\0';
-    };
-    return _inputObject.sourceCode[_inputObject.currentPosition+1];
 };
 
 const nextCharacter = (_inputObject) => {
@@ -74,4 +71,17 @@ const nextCharacter = (_inputObject) => {
     };
 };
 
-lexer("+- */");
+const peek = (_inputObject) => {
+    if (_inputObject.currentPosition + 1 >= _inputObject.sourceCode.length){
+        return '\0';
+    };
+    return _inputObject.sourceCode[_inputObject.currentPosition+1];
+};
+
+const skipSpace = (_inputObject) => {
+    if(_inputObject.currentCharacter == '' || _inputObject.currentCharacter == ' '){
+        nextCharacter(_inputObject);
+    }
+};
+
+lexer("+-=*/");
