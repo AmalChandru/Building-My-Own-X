@@ -12,11 +12,11 @@ const lexer = (_code) => {
     };
     
     let tokenObject = getToken(lexerObject);
-    while(tokenObject.tokenType != tokenTypes.EOF){
-        if(tokenObject.tokenType == tokenTypes.UKNWT){
+    while(tokenObject.tokenType != tokenTypes.get(-1)){
+        if(tokenObject.tokenType == tokenTypes.get(301)){
         console.log('Unknown token');
         }
-        console.log(tokenObject);
+        console.log(tokenObject.tokenType);
         tokenObject = getToken(lexerObject)
     }
 };
@@ -26,36 +26,76 @@ const getToken = (_lexerObject) => {
         "tokenText": _lexerObject.currentCharacter
     };
     skipSpace(_lexerObject);
+    skipComments(_lexerObject);
     switch(_lexerObject.currentCharacter) {
         case '+':
-            tokenObject.tokenType = tokenTypes.PLUS;
+            tokenObject.tokenType = tokenTypes.get(202);
             break;
         case '-':
-            tokenObject.tokenType = tokenTypes.MINUS;
+            tokenObject.tokenType = tokenTypes.get(203);
             break;
         case '*':
-            tokenObject.tokenType = tokenTypes.ASTERISK;
+            tokenObject.tokenType = tokenTypes.get(204);
             break;
         case '/':
-            tokenObject.tokenType = tokenTypes.SLASH;
+            tokenObject.tokenType = tokenTypes.get(205);
             break;
         case '\n':
-            tokenObject.tokenType = tokenTypes.NEWLINE;
+            tokenObject.tokenType = tokenTypes.get(0);
             break;
         case '\0':
-            tokenObject.tokenType = tokenTypes.EOF;
+            tokenObject.tokenType = tokenTypes.get(-1);
             break;
         case '=':
             if(peek(_lexerObject) == '='){
-                tokenObject.tokenType = tokenTypes.EQEQ;
+                tokenObject.tokenType = tokenTypes.get(206);
                 nextCharacter(_lexerObject);
                 break;
             } else {
-                tokenObject.tokenType = tokenTypes.EQ;
+                tokenObject.tokenType = tokenTypes.get(201);
                 break;
             }
+        case '>':
+            if(peek(_lexerObject) == '='){
+                tokenObject.tokenType = tokenTypes.get(211);
+                nextCharacter(_lexerObject);
+                break;
+            } else {
+                tokenObject.tokenType = tokenTypes.get(210);
+                break;
+            }
+        case '<':
+            if(peek(_lexerObject) == '='){
+                tokenObject.tokenType = tokenTypes.get(209);
+                nextCharacter(_lexerObject);
+                break;
+            } else {
+                tokenObject.tokenType = tokenTypes.get(208);
+                break;
+            }
+        case '!':
+            if(peek(_lexerObject) == '='){
+                tokenObject.tokenType = tokenTypes.get(207);
+                nextCharacter(_lexerObject);
+                break;
+            } else {
+                tokenObject.tokenType = tokenTypes.get(301);
+                break;
+            }
+        case '\"':
+            nextCharacter(_lexerObject);
+            let startPosition = _lexerObject.currentPosition;
+            while(_lexerObject.currentCharacter != '\"'){
+                if(_lexerObject.currentCharacter == '\r' || _lexerObject.currentCharacter == '\n' || _lexerObject.currentCharacter == '\t' || _lexerObject.currentCharacter == '\\' || _lexerObject.currentCharacter == '%'){
+                    tokenObject.tokenType = tokenTypes.get(301);
+                    break;
+                }
+                nextCharacter(_lexerObject);
+            }
+            tokenObject.tokenText = _lexerObject.sourceCode.slice(startPosition,_lexerObject.currentPosition);
+            tokenObject.tokenType = tokenTypes.get(3);
         default:
-            tokenObject.tokenType = tokenTypes.UKNWT;
+            tokenObject.tokenType = tokenTypes.get(301);
             break;
     }
     nextCharacter(_lexerObject);
@@ -84,4 +124,12 @@ const skipSpace = (_inputObject) => {
     }
 };
 
-lexer("+-=*/");
+const skipComments = (_inputObject) => {
+    if (_inputObject.currentCharacter == '#') {
+        while(_inputObject.currentCharacter != "\n"){
+            nextCharacter(_inputObject);
+        }
+    };
+};
+
+lexer("+- \"This is a string\" # This is a comment!\n */");

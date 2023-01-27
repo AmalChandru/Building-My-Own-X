@@ -1,41 +1,19 @@
-//TO DO Convert javascript Object to map
-//const tokenTypes = new Map();
-const tokenTypes = {
-    "EOF": -1,
-	"NEWLINE": 0,
-	"NUMBER": 1,
-	"IDENT": 2,
-	"STRING": 3,
-
-	//Keyword:
-	"LABEL": 101,
-	"GOTO": 102,
-	"PRINT": 103,
-	"INPUT": 104,
-	"LET": 105,
-	"IF": 106,
-	"THEN": 107,
-	"ENDIF": 108,
-	"WHILE": 109,
-	"REPEAT": 110,
-	"ENDWHILE": 111,
-
-	//"Operators.
-	"EQ": 201,  
-	"PLUS": 202,
-	"MINUS": 203,
-	"ASTERISK": 204,
-	"SLASH": 205,
-	"EQEQ": 206,
-	"NOTEQ": 207,
-	"LT": 208,
-	"LTEQ": 209,
-	"GT": 210,
-	"GTEQ": 211,
-
-    //Unknown Token
-    "UKNWT": 301,
-};
+const tokenTypes = new Map([
+	[ -1, 'EOF' ],     [ 0, 'NEWLINE' ],
+	[ 1, 'NUMBER' ],   [ 2, 'IDENT' ],
+	[ 3, 'STRING' ],   [ 101, 'LABEL' ],
+	[ 102, 'GOTO' ],   [ 103, 'PRINT' ],
+	[ 104, 'INPUT' ],  [ 105, 'LET' ],
+	[ 106, 'IF' ],     [ 107, 'THEN' ],
+	[ 108, 'ENDIF' ],  [ 109, 'WHILE' ],
+	[ 110, 'REPEAT' ], [ 111, 'ENDWHILE' ],
+	[ 201, 'EQ' ],     [ 202, 'PLUS' ],
+	[ 203, 'MINUS' ],  [ 204, 'ASTERISK' ],
+	[ 205, 'SLASH' ],  [ 206, 'EQEQ' ],
+	[ 207, 'NOTEQ' ],  [ 208, 'LT' ],
+	[ 209, 'LTEQ' ],   [ 210, 'GT' ],
+	[ 211, 'GTEQ' ],   [ 301, 'UKNWT' ]
+  ]);
 
 module.exports = {
     tokenTypes: tokenTypes
