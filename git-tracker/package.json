@@ -1,0 +1,14 @@
+{
+  "name": "git-tracker",
+  "version": "1.0.0",
+  "description": "to track git repos, pull them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "hello": "./bin/index.js"
+  },
+  "author": "Amal Chandru",
+  "license": "ISC"
+}
