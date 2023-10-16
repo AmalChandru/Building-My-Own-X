@@ -39,12 +39,6 @@ B.D = D;
 // "B" reference is removed from "A".
 delete A.B;
 
-// It means that "D" still has the reference to it from "B" but it's
-// not reachable (because B is not reachable anymore)
-
-// After these manipulations, the heap still contains four objects:
-// [{ A }, { B }, { C }, { D }], but only the "A" object is reachable (root)
-
 // Garbage collector (uses mark and sweep algorithm )
 const gc = () => {
   // Set __mark__ bits on the reachable objects to 1
